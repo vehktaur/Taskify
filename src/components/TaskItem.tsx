@@ -33,6 +33,10 @@ const TaskItem = ({ task, setTasks, index }: Props) => {
     id: string
   ) => {
     event.preventDefault();
+    if (text === '') {
+      alert('Input field cannot be empty');
+      return;
+    }
     setTasks((prevTasks) =>
       prevTasks.map((currentTask) =>
         currentTask.id === id ? { ...currentTask, text: text } : currentTask

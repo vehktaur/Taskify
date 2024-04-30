@@ -12,9 +12,14 @@ const App: React.FC = () => {
     text: '',
     isComplete: false
   });
+  const addTaskInput = useRef<HTMLInputElement>(null);
 
   const addTask = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (task.text === '') {
+      alert('Input field cannot be empty');
+      return;
+    }
     setActiveTasks((allTasks) => [...allTasks, task]);
     setTask({ ...task, text: '', id: nanoid() });
   };
@@ -50,7 +55,7 @@ const App: React.FC = () => {
     setCompletedTasks(newCompleteTasks);
   };
 
-  const addTaskInput = useRef<HTMLInputElement>(null);
+ 
   useEffect(() => addTaskInput.current?.focus(), []);
 
   return (
