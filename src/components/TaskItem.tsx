@@ -9,7 +9,9 @@ const TaskItem = ({ task, setTasks, index }: Props) => {
   const taskInput = useRef<HTMLInputElement>(null);
 
   const editTask = (isComplete: boolean) => {
-    !isComplete && setIsEditable((prevValue) => !prevValue);
+    if (!isComplete) {
+    }
+    setIsEditable((prevValue) => !prevValue);
   };
 
   const deleteTask = (id: string) => {
@@ -33,8 +35,9 @@ const TaskItem = ({ task, setTasks, index }: Props) => {
     id: string
   ) => {
     event.preventDefault();
-    if (text === '') {
+    if (text.trim() === '') {
       alert('Input field cannot be empty');
+      setEditText(task.text);
       return;
     }
     setTasks((prevTasks) =>

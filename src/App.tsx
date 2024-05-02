@@ -16,12 +16,12 @@ const App: React.FC = () => {
 
   const addTask = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (task.text === '') {
+    if (task.text.trim() === '') {
       alert('Input field cannot be empty');
       return;
     }
     setActiveTasks((allTasks) => [...allTasks, task]);
-    setTask({ ...task, text: '', id: nanoid() });
+    setTask({ ...task, text: '', id: nanoid()});
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -72,7 +72,7 @@ const App: React.FC = () => {
               <input
                 className="block rounded-full p-4 outline-none w-full mx-auto text-lg shadow-sm ring-1 ring-winter-200"
                 type="text"
-                placeholder="Enter a todo"
+                placeholder="Enter a task"
                 value={task.text}
                 ref={addTaskInput}
                 onChange={(event) =>
@@ -80,7 +80,7 @@ const App: React.FC = () => {
                 }
               />
               <input
-                className="absolute rounded-full font-semibold text-white text-2xl p-2 bg-winter-300 hover:bg-winter-400 cursor-pointer transition-colors right-3 top-[50%] translate-y-[-50%]"
+                className="absolute rounded-full font-semibold text-white text-xl p-2 bg-winter-300 hover:bg-slate-500 cursor-pointer right-3 top-[50%] translate-y-[-50%] transition-all active:scale-95"
                 type="submit"
                 value="GO"
               />
