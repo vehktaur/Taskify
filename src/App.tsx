@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Task } from './interfaces';
 import { nanoid } from 'nanoid';
+import toast, { Toaster } from 'react-hot-toast';
 import TaskItem from './components/TaskItem';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 
@@ -17,11 +18,12 @@ const App: React.FC = () => {
   const addTask = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (task.text.trim() === '') {
-      alert('Input field cannot be empty');
+      toast.error('Task field cannot be empty');
       return;
     }
     setActiveTasks((allTasks) => [...allTasks, task]);
-    setTask({ ...task, text: '', id: nanoid()});
+    setTask({ ...task, text: '', id: nanoid() });
+    toast.success('Task added successfully')
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -55,7 +57,6 @@ const App: React.FC = () => {
     setCompletedTasks(newCompleteTasks);
   };
 
- 
   useEffect(() => addTaskInput.current?.focus(), []);
 
   return (
@@ -67,6 +68,7 @@ const App: React.FC = () => {
           </h1>
         </header>
         <main className="max-w-6xl mx-auto">
+          <Toaster />
           <form onSubmit={addTask}>
             <div className="relative mx-auto">
               <input

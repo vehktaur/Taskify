@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Props } from '../interfaces';
 import { Draggable } from '@hello-pangea/dnd';
+import toast from 'react-hot-toast';
 
 const TaskItem = ({ task, setTasks, index }: Props) => {
   const [isEditable, setIsEditable] = useState<boolean>(false);
@@ -27,6 +28,9 @@ const TaskItem = ({ task, setTasks, index }: Props) => {
         task.id === id ? { ...task, isComplete: !task.isComplete } : task
       )
     );
+    if (!task.isComplete) {
+      toast.success('Task completed');
+    }
   };
 
   const handleEdit = (
@@ -36,7 +40,7 @@ const TaskItem = ({ task, setTasks, index }: Props) => {
   ) => {
     event.preventDefault();
     if (text.trim() === '') {
-      alert('Input field cannot be empty');
+      toast.error('Task field cannot be empty');
       setEditText(task.text);
       return;
     }
@@ -45,6 +49,9 @@ const TaskItem = ({ task, setTasks, index }: Props) => {
         currentTask.id === id ? { ...currentTask, text: text } : currentTask
       )
     );
+    if (text !== task.text) {
+      toast.success('Task edited successfully');
+    }
   };
 
   useEffect(() => taskInput.current?.focus(), [isEditable]);
