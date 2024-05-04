@@ -3,11 +3,12 @@ import { Task } from './interfaces';
 import { nanoid } from 'nanoid';
 import toast, { Toaster } from 'react-hot-toast';
 import TaskItem from './components/TaskItem';
+import { useLocalStorage } from 'usehooks-ts';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 
 const App: React.FC = () => {
-  const [activeTasks, setActiveTasks] = useState<Task[]>([]);
-  const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
+  const [activeTasks, setActiveTasks] = useLocalStorage<Task[]>('activeTasks',[]);
+  const [completedTasks, setCompletedTasks] = useLocalStorage<Task[]>('completedTasks',[]);
   const [task, setTask] = useState<Task>({
     id: nanoid(),
     text: '',
@@ -23,7 +24,7 @@ const App: React.FC = () => {
     }
     setActiveTasks((allTasks) => [...allTasks, task]);
     setTask({ ...task, text: '', id: nanoid() });
-    toast.success('Task added successfully')
+    toast.success('Task added successfully');
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -51,6 +52,13 @@ const App: React.FC = () => {
       newActiveTasks.splice(destination.index, 0, task);
     } else {
       newCompleteTasks.splice(destination.index, 0, task);
+    }
+
+    if (
+      source.droppableId === 'activeTasks' &&
+      destination.droppableId === 'completedTasks'
+    ) {
+      toast.success('Task completed');
     }
 
     setActiveTasks(newActiveTasks);

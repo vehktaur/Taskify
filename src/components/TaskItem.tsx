@@ -17,6 +17,7 @@ const TaskItem = ({ task, setTasks, index }: Props) => {
 
   const deleteTask = (id: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    toast.success('Task deleted')
   };
 
   const completeTask = (id: string) => {
